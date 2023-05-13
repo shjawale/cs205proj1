@@ -2,7 +2,9 @@ import priorityqueue, copy
 
 #recesses = [3,5,7]
 #recesses = [1, 2]
-#recesses = [1,2,3,4,5]
+recesses = [1,2,3,4,5,6]
+#global global_recesses
+#global_recesses = list()
 
 class Node():
     print('in node class')
@@ -10,11 +12,11 @@ class Node():
         self.parent = parent  #since we create a new node when we still have the parent. we can have parent as an argument
         self.gn = g
         self.hn = 0
-        self.recesses = list()
         self.currPuzzleLayout = copy.deepcopy(puzzle)  #copy instead of reference
+        #self.recesses = list()
 
-    def printPuzzle(self):
-        print(self.currPuzzleLayout)
+    def printRecesses(self):
+        print("recesses =", recesses)
         '''
         for c in range(9):
             if (c==3) or (c==5) or (c==7):
@@ -22,12 +24,21 @@ class Node():
             else:
                 print(self.currPuzzleLayout[c])
         '''
-    
+        '''
     def findRecesses(self):
-        for i in range(len(self.currPuzzleLayout)):
+        self.recesses = list()
+        for i in range(len(self.currPuzzleLayout[0])):
+            #print(self.currPuzzleLayout[0], i)
             if self.currPuzzleLayout[0][i] == 0:
                 self.recesses.append(i)
-        print("recesses =", self.recesses)
+        global_recesses = self.recesses
+        print("find recesses =", self.recesses)
+        for i in range(len(self.currPuzzleLayout[0])):
+            print(self.currPuzzleLayout[0], i)
+            if self.currPuzzleLayout[0][i] == 0:
+                global_recesses.append(i)
+        print("find recesses =", global_recesses)
+    '''
 
     def isGoalState(self, prob):
         return self.currPuzzleLayout == prob.goal_state.currPuzzleLayout  #goal_state will be a node
@@ -36,18 +47,13 @@ class Node():
         self.parent = parentnode
         self.gn = g
 
+    #modified function for cs205
     def goDown(self): #returns new node with self as parent and new calculated currPuzzle, g(n), h(n)
         adjacentNode = Node(self, self.gn+1, self.currPuzzleLayout) #create newNode and modify 0's position
-        #print("in goDown()")
-        '''
-        for c in self.recesses:
-            #print("adjacentNode.currPuzzleLayout[c] =", adjacentNode.currPuzzleLayout[c])
-            if adjacentNode.currPuzzleLayout[c][0] == 0:
-                adjacentNode.currPuzzleLayout[c][0] = adjacentNode.currPuzzleLayout[c][1]
-                adjacentNode.currPuzzleLayout[c][1] = 0
-                return adjacentNode
-        '''
-        for c in self.recesses:
+        #self.findRecesses()
+        self.printRecesses()
+        #for c in self.recesses:
+        for c in recesses:
             if adjacentNode.currPuzzleLayout[0][c] == 0:
                 adjacentNode.currPuzzleLayout[0][c] = adjacentNode.currPuzzleLayout[1][c]
                 adjacentNode.currPuzzleLayout[1][c] = 0
@@ -56,15 +62,8 @@ class Node():
 
     def goUp(self):
         adjacentNode = Node(self, self.gn+1, self.currPuzzleLayout) #create newNode and modify 0's position
-        '''
-        for c in self.recesses:
-            #print("adjacentNode.currPuzzleLayout[c] =", adjacentNode.currPuzzleLayout[c])
-            if adjacentNode.currPuzzleLayout[c][1] == 0:
-                adjacentNode.currPuzzleLayout[c][1] = adjacentNode.currPuzzleLayout[c][0]
-                adjacentNode.currPuzzleLayout[c][0] = 0
-                return adjacentNode
-        '''
-        for c in self.recesses:
+        #for c in self.recesses:
+        for c in recesses:
             if adjacentNode.currPuzzleLayout[1][c] == 0:
                 adjacentNode.currPuzzleLayout[1][c] = adjacentNode.currPuzzleLayout[0][c]
                 adjacentNode.currPuzzleLayout[0][c] = 0
