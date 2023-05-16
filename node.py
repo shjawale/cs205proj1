@@ -72,7 +72,8 @@ class Node():
             return None
 
         if adjacentNode.currPuzzleLayout[0][posES[1]] == 0:
-            print("both are 0")
+            #print("both are 0")
+            return None
         else:
             adjacentNode.currPuzzleLayout[1][posES[1]] = adjacentNode.currPuzzleLayout[0][posES[1]]
             adjacentNode.currPuzzleLayout[0][posES[1]] = 0
@@ -89,7 +90,8 @@ class Node():
             return None
 
         if adjacentNode.currPuzzleLayout[1][posES[1]] == 0:
-            print("both are 0")
+            #print("both are 0")
+            return None
         else:
             adjacentNode.currPuzzleLayout[0][posES[1]] = adjacentNode.currPuzzleLayout[1][posES[1]]
             adjacentNode.currPuzzleLayout[1][posES[1]] = 0
@@ -105,7 +107,8 @@ class Node():
             return None
 
         if adjacentNode.currPuzzleLayout[1][posES[1]-1] == 0:
-            print("both are 0")
+            #print("both are 0")
+            return None
         else:
             k = adjacentNode.currPuzzleLayout[1][posES[1]-1]            #k is value you want to swap with 0
             adjacentNode.currPuzzleLayout[1][posES[1]] = k
@@ -125,7 +128,8 @@ class Node():
             return None
 
         if adjacentNode.currPuzzleLayout[1][posES[1]+1] == 0:
-            print("both are 0")
+            #print("both are 0")
+            return None
         else:
             k = adjacentNode.currPuzzleLayout[1][posES[1]+1]            #k is value you want to swap with 0
             adjacentNode.currPuzzleLayout[1][posES[1]] = k 

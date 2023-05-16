@@ -78,15 +78,7 @@ def estcostmanhattan(nodeLayout, probLayout): #probLayout is a list
             #print("h(n) =",c-pc)
             diffc = abs(c - pc) 
             break
-        '''
-        if nodeLayout[1][c] == 0:
-            continue
-        pc = mapofPuzzle[nodeLayout[1][c]]      #find location of each soldier
-        #print("h(n) =", c - pc)
-        diffc = c - pc 
-        print("diffc =", diffc, "looking for", nodeLayout[1][c], "which should be in the trench at", pc, "but is in the trench at", c)
-        result += diffc
-        '''
+
     #print("  not in rec diffc =", diffc)
     if diffc == 100:
         result = diffcr
@@ -123,22 +115,15 @@ def main():
         mapofPuzzle.update({probLayout[1][c] : (c)})
     node.Node.mapofPuzzle = mapofPuzzle
 
-    print("\nEnter your choice of algorithm\nUniform Cost Search\nA* with the Misplace Tile heuristic\nA* with the Euclidean distance heuristic\n")
-    algotype = input() #input
-    if algotype == '1':
-        ucs = AstarF.Astar(prob, estcostuniform)
-        print("reached main from uniformcost", ucs)
-    elif algotype == '2':
-        Am = AstarF.Astar(prob, estcostmisplaced)
-        print("reached main from Amisplaced", Am)
-    elif algotype == '3':
-        Ae = AstarF.Astar(prob, estcosteuclidean)
-        print("reached main from Aeuclid", Ae)
-    elif algotype == '4':
-        man = AstarF.Astar(prob, estcostTotManhattan) #estcostmanhattan)
-        print("reached main from Amanhattan", man)
-    else:
-        print("Invalid number. Reminder, valid algorithm numbers are '1', '2', or '3'.")
+    print("\nYour algorithm is A* with Manhattan distance heuristic\n")
+    #if algotype == '1':
+    #    ucs = AstarF.Astar(prob, estcostuniform)
+    #    print("reached main from uniformcost", ucs)
+    #elif algotype == '4':
+    man = AstarF.Astar(prob, estcostTotManhattan) #estcostmanhattan)
+    print("reached main from Amanhattan", man)
+    #else:
+    #    print("Invalid number. Reminder, valid algorithm numbers are '1', '2', or '3'.")
     return
 
 

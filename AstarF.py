@@ -71,25 +71,28 @@ def Astar(problem, estcost):  #returns either a solution or failure
                 allnewnodes.append(nodeI)                           #list of all new nodes adjacent to chosen node
 
             
-        for i in range(len(allnewnodes)):
-            print("after loop: allnewnodes[",i, "] =", allnewnodes[i].currPuzzleLayout)
+        #for i in range(len(allnewnodes)):
+            #print("after loop: allnewnodes[",i, "] =", allnewnodes[i].currPuzzleLayout)
 
         for n in allnewnodes: #iterate over nodes
-            print("n.currPuzzleLayout =", n.currPuzzleLayout)
+            #print("n.currPuzzleLayout =", n.currPuzzleLayout)
             if n in explored:                                   #returns bool corresponding to whether given node is in explored set
-                print("new node is already in explored. do nothing")
+                #print("new node is already in explored. do nothing")
+                continue
             elif frontier.find(n):                              #returns bool corresponding to whether given node is in explored set
                 if (nodewithmingn.gn) > (n.gn):    #lower cost   (does not need hn)
                     n.update(nodewithmingn, n.gn)       #updates node object with  given g(n) value (which should update frontier)
                     frontier.update()
-                    print("updated value of f(n)", n.currPuzzleLayout, "in frontier")
+                    #print("updated value of f(n)", n.currPuzzleLayout, "in frontier")
                 else:
-                    print("new node has higher cost than existing node. do nothing")
+                    #print("new node has higher cost than existing node. do nothing")
+                    continue
+                    
             else:
                 frontier.push(n)
-                print("pushed", n.currPuzzleLayout, "to frontier")
+                #print("pushed", n.currPuzzleLayout, "to frontier")
                 #print("frontier.queue[0] =", frontier.queue)
-        print("\n")
+        #print("\n")
 
         #print("explored =", explored) 
         explored.add(nodewithmingn)                             #add the node to the explored set
