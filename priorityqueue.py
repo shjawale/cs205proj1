@@ -5,7 +5,7 @@ class priorityQueue:
     ## heapq is a module that comes with python
     ## delete(), now popmin() edited to be relevant to the project
     def __init__(self):
-        self.queue = list()
+        self.queue = []
 
     def __str__(self):
         return ' '.join([str(i) for i in self.queue])

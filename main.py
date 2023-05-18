@@ -116,14 +116,8 @@ def main():
     node.Node.mapofPuzzle = mapofPuzzle
 
     print("\nYour algorithm is A* with Manhattan distance heuristic\n")
-    #if algotype == '1':
-    #    ucs = AstarF.Astar(prob, estcostuniform)
-    #    print("reached main from uniformcost", ucs)
-    #elif algotype == '4':
     man = AstarF.Astar(prob, estcostTotManhattan) #estcostmanhattan)
     print("reached main from Amanhattan", man)
-    #else:
-    #    print("Invalid number. Reminder, valid algorithm numbers are '1', '2', or '3'.")
     return
 
 

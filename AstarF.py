@@ -15,11 +15,12 @@
 # dequeue nodes in order of their cost (from initial node), g(n)
 #   which is the same as A* = g(n) + h(n) where h(n) = 0
 
-import priorityqueue, node
+import priorityqueue, node, sys
 
 
 def Astar(problem, estcost):  #returns either a solution or failure
     frontier = priorityqueue.priorityQueue()  #needs to be a priority queue (min heap)
+    frontier_set = set()
     print("problem.initial_state =", problem.initial_state)
     
     #initialize the frontier using the initial state of problem
@@ -27,8 +28,8 @@ def Astar(problem, estcost):  #returns either a solution or failure
     #print("root =", root.currPuzzleLayout)
     #root.findRecesses()     #find the recesses                                     #added line for cs205
     #print("root.recesses =", root.recesses)                                        #added line for cs205
-    root.findEmptySpaces()     #find the emptySpaces                                #added line for cs205
     frontier.push(root) #, root.gn, root.hn)
+    frontier_set.add(root)
     #print("frontier after pushing root =", frontier.queue[0].currPuzzleLayout)
 
     root.hn = estcost(root.currPuzzleLayout, problem.goal_state.currPuzzleLayout)
@@ -49,8 +50,12 @@ def Astar(problem, estcost):  #returns either a solution or failure
         #   the node with the least g(n) will be removed
         #       how to calculate g(n)??
         nodewithmingn = frontier.popmin()                       #initialize nodewithmingn with the first node in current frontier (which should be the node with the minimum g(n))
+        frontier_set.remove(nodewithmingn)
 
-        print("popped min from frontier", nodewithmingn.currPuzzleLayout, "with a g(n) =", nodewithmingn.gn, "and a h(n) =", nodewithmingn.hn, "and a queue size of", len(frontier.queue))
+        print("popped min from frontier", nodewithmingn.currPuzzleLayout, "f(n) =", nodewithmingn.gn+nodewithmingn.hn, "with a g(n) =", nodewithmingn.gn, "and a h(n) =", nodewithmingn.hn, "and a queue size of", len(frontier.queue))
+        if 0 :
+            if len(frontier.queue) > 1000 :
+                sys.exit(0)
     
         if nodewithmingn.isGoalState(problem):
             #return nodewithmingn.findPath()
@@ -62,35 +67,41 @@ def Astar(problem, estcost):  #returns either a solution or failure
         allnewnodes = list()
        
         #added for cs205
-        for singleEmptySpace in nodewithmingn.emptySpaces:      #iterate through nodewithmingn.emptySpaces and find theneighboring nodes for each
+        emptySpaces = nodewithmingn.findEmptySpaces()
+        for singleEmptySpace in emptySpaces:      #iterate through nodewithmingn.emptySpaces and find theneighboring nodes for each
             newNodeList = nodewithmingn.findNeighbors(singleEmptySpace)
 
             for nodeI in newNodeList:
                 #nodeI.hn = estcost(nodeI.currPuzzleLayout, problem.goal_state.currPuzzleLayout)
-                #print("nodeI =", nodeI.currPuzzleLayout)
+                pass #print("nodeI =", nodeI.currPuzzleLayout)
                 allnewnodes.append(nodeI)                           #list of all new nodes adjacent to chosen node
 
             
-        #for i in range(len(allnewnodes)):
-            #print("after loop: allnewnodes[",i, "] =", allnewnodes[i].currPuzzleLayout)
+        if 0 :
+            for i in range(len(allnewnodes)):
+                print("after loop: allnewnodes[",i, "] =", allnewnodes[i].currPuzzleLayout)
 
         for n in allnewnodes: #iterate over nodes
             #print("n.currPuzzleLayout =", n.currPuzzleLayout)
+            if (nodewithmingn.gn) > (n.gn):    #lower cost   (does not need hn)
+                pass #print("lower", n.currPuzzleLayout, "f(n) =", n.gn+n.hn, "with a g(n) =", n.gn, "and a h(n) =", n.hn, "and a queue size of", len(frontier.queue))
             if n in explored:                                   #returns bool corresponding to whether given node is in explored set
-                #print("new node is already in explored. do nothing")
-                continue
-            elif frontier.find(n):                              #returns bool corresponding to whether given node is in explored set
+                pass #print("explored", n.currPuzzleLayout, "f(n) =", n.gn+n.hn, "with a g(n) =", n.gn, "and a h(n) =", n.hn, "and a queue size of", len(frontier.queue))
+                pass #print("new node is already in explored. do nothing")
+            elif n in frontier_set:                              #returns bool corresponding to whether given node is in explored set
                 if (nodewithmingn.gn) > (n.gn):    #lower cost   (does not need hn)
+                    #print("before", n.currPuzzleLayout, "f(n) =", n.gn+n.hn, "with a g(n) =", n.gn, "and a h(n) =", n.hn, "and a queue size of", len(frontier.queue))
                     n.update(nodewithmingn, n.gn)       #updates node object with  given g(n) value (which should update frontier)
+                    #print("after", n.currPuzzleLayout, "f(n) =", n.gn+n.hn, "with a g(n) =", n.gn, "and a h(n) =", n.hn, "and a queue size of", len(frontier.queue))
                     frontier.update()
-                    #print("updated value of f(n)", n.currPuzzleLayout, "in frontier")
+                    pass #print("updated value of f(n)", n.currPuzzleLayout, "in frontier")
                 else:
-                    #print("new node has higher cost than existing node. do nothing")
-                    continue
-                    
+                    pass #print("new node has higher cost than existing node. do nothing")
             else:
                 frontier.push(n)
-                #print("pushed", n.currPuzzleLayout, "to frontier")
+                frontier_set.add(n)
+                #print("pushed in frontier", n.currPuzzleLayout, "f(n) =", n.gn+n.hn, "with a g(n) =", n.gn, "and a h(n) =", n.hn, "and a queue size of", len(frontier.queue))
+                pass #print("pushed", n.currPuzzleLayout, "to frontier")
                 #print("frontier.queue[0] =", frontier.queue)
         #print("\n")
 
